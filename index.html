@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tela</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="is-booting">
+    <div class="splash-screen" id="splash-screen" aria-hidden="true">
+      <div class="splash-core">
+        <p class="splash-name">tela</p>
+      </div>
+    </div>
+
+    <section class="auth-screen" id="auth-screen" hidden>
+      <div class="auth-card panel">
+        <p class="brand-name">tela</p>
+        <h1>Sign in to your closet.</h1>
+        <p class="support-copy">Save your wardrobe, outfit mixes, and explore posts on this device.</p>
+
+        <form class="form-card" id="auth-form">
+          <label>
+            <span>Name</span>
+            <input name="name" type="text" placeholder="Elvis" required />
+          </label>
+
+          <label>
+            <span>Email</span>
+            <input name="email" type="email" placeholder="you@example.com" required />
+          </label>
+
+          <div class="button-row">
+            <button class="button button-primary" name="intent" value="create" type="submit">
+              Create account
+            </button>
+            <button class="button button-secondary" name="intent" value="signin" type="submit">
+              Sign in
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <div class="ambient ambient-left"></div>
+    <div class="ambient ambient-right"></div>
+
+    <div class="page-shell app-shell" id="app-shell">
+      <header class="topbar panel">
+        <div class="brand-block">
+          <p class="brand-name">tela</p>
+        </div>
+
+        <nav class="nav-tabs" id="app-nav" aria-label="Primary">
+          <button class="nav-tab is-active" data-screen="home" type="button" aria-label="Home" title="Home">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/></svg>
+          </button>
+          <button class="nav-tab" data-screen="closet" type="button" aria-label="Closet" title="Closet">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5a2.5 2.5 0 1 1 5 0v1h5a1 1 0 0 1 1 1V20h-2v-4H8v4H6V6.5a1 1 0 0 1 1-1h5zm3 1V4.5a.5.5 0 0 0-1 0v1z"/></svg>
+          </button>
+          <button class="nav-tab" data-screen="inspo" type="button" aria-label="Inspiration" title="Inspiration">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a6.5 6.5 0 0 1 4.2 11.46c-.72.61-1.2 1.18-1.45 1.71h-5.5c-.25-.53-.73-1.1-1.45-1.7A6.5 6.5 0 0 1 12 3Zm-3 15h6v1.25A1.75 1.75 0 0 1 13.25 21h-2.5A1.75 1.75 0 0 1 9 19.25z"/></svg>
+          </button>
+          <button class="nav-tab" data-screen="explore" type="button" aria-label="Explore" title="Explore">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.8 3.7 7.3 7.1a1.5 1.5 0 0 0-.79.79l-3.4 7.5a1 1 0 0 0 1.3 1.3l7.5-3.4a1.5 1.5 0 0 0 .79-.79l3.4-7.5a1 1 0 0 0-1.3-1.3ZM12 10.25A1.75 1.75 0 1 1 10.25 12 1.75 1.75 0 0 1 12 10.25Z"/></svg>
+          </button>
+          <button class="nav-tab" data-screen="profile" type="button" aria-label="Profile" title="Profile">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4.25 4.25 0 1 0-4.25-4.25A4.25 4.25 0 0 0 12 12Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/></svg>
+          </button>
+        </nav>
+      </header>
+
+      <main class="screen-stage" id="screen-stage">
+        <section class="app-screen is-active" data-screen="home" id="screen-home">
+          <div class="screen-stack">
+            <header class="hero panel">
+              <div class="hero-copy">
+                <p class="eyebrow">tela</p>
+                <h1>Your closet, on shuffle.</h1>
+                <p class="hero-text">Replay favorite fits. Discover a new direction.</p>
+                <div class="hero-actions">
+                  <button class="button button-primary" id="hero-generate" type="button">
+                    Shuffle outfit
+                  </button>
+                  <button
+                    class="button button-secondary"
+                    data-screen-target="inspo"
+                    type="button"
+                  >
+                    Get inspo
+                  </button>
+                </div>
+                <div class="stat-stack hero-stat-grid" id="hero-stats"></div>
+              </div>
+
+              <div class="hero-aside">
+                <div class="favorite-card">
+                  <p class="eyebrow">most replayed</p>
+                  <div id="hero-favorite"></div>
+                </div>
+              </div>
+            </header>
+
+            <section class="panel section section-compact">
+              <div class="home-mix-header">
+                <div>
+                  <p class="eyebrow">today's mix</p>
+                  <h2>Ready when you are.</h2>
+                </div>
+                <div class="button-row">
+                  <button class="button button-primary" id="generate-outfit" type="button">
+                    Signature fit
+                  </button>
+                  <button class="button button-secondary" id="generate-wildcard" type="button">
+                    Surprise me
+                  </button>
+                </div>
+              </div>
+
+              <div id="suggestion-panel"></div>
+            </section>
+
+            <section class="home-shelf">
+              <div class="shelf-heading">
+                <h2>Recents</h2>
+                <button class="text-button" data-screen-target="closet" type="button">Show all</button>
+              </div>
+              <div class="home-card-rail" id="recents-rail"></div>
+            </section>
+
+            <div class="home-columns">
+              <section class="panel section section-compact">
+                <div class="shelf-heading shelf-heading-card">
+                  <h2>Top combinations</h2>
+                  <button class="text-button" data-screen-target="closet" type="button">Edit closet</button>
+                </div>
+                <div id="combination-list"></div>
+              </section>
+
+              <section class="panel section section-compact">
+                <div class="shelf-heading shelf-heading-card">
+                  <h2>Closet stats</h2>
+                  <button class="text-button" data-screen-target="explore" type="button">Explore</button>
+                </div>
+                <div class="summary-strip home-summary-strip js-summary-strip"></div>
+              </section>
+            </div>
+          </div>
+        </section>
+
+        <section class="app-screen" data-screen="closet" id="screen-closet" hidden>
+          <section class="panel section">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">closet / wardrobe library</p>
+                <h2>Your wardrobe library.</h2>
+              </div>
+              <p class="section-copy">Add pieces. Mark laundry. Keep the rotation clean.</p>
+            </div>
+
+            <div class="summary-strip js-summary-strip"></div>
+
+            <div class="library-layout">
+              <div class="card closet-entry-card">
+                <div class="card-heading">
+                  <h3>Add item</h3>
+                  <p>Keep closet entry quick and out of the way.</p>
+                </div>
+                <div class="button-row">
+                  <button class="button button-primary" id="open-add-item" type="button">Add item</button>
+                  <button class="button button-secondary" id="open-outfit-builder" type="button">Create outfit</button>
+                </div>
+              </div>
+              <div class="card insight-card">
+                <div class="card-heading">
+                  <h3>Closet pulse</h3>
+                  <p>What tela is learning.</p>
+                </div>
+
+                <div class="insight-list" id="insight-list"></div>
+              </div>
+            </div>
+
+            <div class="closet-controls card" id="closet-controls"></div>
+
+            <div class="wardrobe-grid" id="wardrobe-grid"></div>
+          </section>
+        </section>
+
+        <section class="app-screen" data-screen="inspo" id="screen-inspo" hidden>
+          <section class="panel section">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">inspo / visual mood board</p>
+                <h2>Outfit inspo.</h2>
+              </div>
+              <p class="section-copy">Choose a mood. Get a look.</p>
+            </div>
+
+            <div class="inspo-layout">
+              <form class="card form-card" id="inspo-form">
+                <div class="card-heading">
+                  <h3>Style prompt</h3>
+                  <p>Try gorpcore, tailoring, art-school layers.</p>
+                </div>
+
+                <label>
+                  <span>Style</span>
+                  <select name="style">
+                    <option value="gorpcore">Gorpcore</option>
+                    <option value="soft-tailoring">Soft tailoring</option>
+                    <option value="art-school">Art-school layers</option>
+                    <option value="minimal-street">Minimal street</option>
+                    <option value="after-dark">After-dark dress up</option>
+                  </select>
+                </label>
+
+                <label>
+                  <span>Energy</span>
+                  <select name="energy">
+                    <option value="effortless">Effortless</option>
+                    <option value="elevated">Elevated</option>
+                    <option value="playful">Playful</option>
+                    <option value="quiet-luxury">Quiet luxury</option>
+                  </select>
+                </label>
+
+                <label>
+                  <span>What are you in the mood for?</span>
+                  <textarea
+                    name="note"
+                    rows="4"
+                    placeholder="City walk, cold weather, I want color but still feel clean..."
+                  ></textarea>
+                </label>
+
+                <button class="button button-primary full-width" type="submit">
+                  Generate Inspo Image
+                </button>
+              </form>
+
+              <div class="card inspo-card" id="inspo-panel"></div>
+            </div>
+          </section>
+        </section>
+
+        <section class="app-screen" data-screen="explore" id="screen-explore" hidden>
+          <section class="panel section">
+            <div class="explore-main">
+              <div class="explore-topbar">
+                <label class="explore-search">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 4a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13Zm0 2a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9Zm9.91 12.5 1.59 1.59-1.41 1.41-1.59-1.59z"/></svg>
+                  <input id="explore-search" type="search" placeholder="Search fits, pieces, colors" />
+                </label>
+                <div class="explore-actions">
+                  <div id="prompt-panel"></div>
+                  <button
+                    class="icon-action"
+                    id="enable-notifications"
+                    type="button"
+                    aria-label="Enable alerts"
+                    title="Enable alerts"
+                  >
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4a4 4 0 0 0-4 4v2.6c0 .8-.24 1.57-.69 2.21L6 14.8V16h12v-1.2l-1.31-1.99A4 4 0 0 1 16 10.6V8a4 4 0 0 0-4-4Zm0 17a2.75 2.75 0 0 1-2.58-1.8h5.16A2.75 2.75 0 0 1 12 21Z"/></svg>
+                  </button>
+                  <button
+                    class="icon-action"
+                    id="open-post-composer"
+                    type="button"
+                    aria-label="Create post"
+                    title="Create post"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <div class="explore-feed masonry-feed" id="explore-feed"></div>
+            </div>
+          </section>
+        </section>
+
+        <section class="app-screen" data-screen="profile" id="screen-profile" hidden>
+          <section class="panel section">
+            <div class="profile-header card">
+              <div class="profile-identity">
+                <div class="profile-avatar" id="profile-avatar"></div>
+                <div>
+                  <p class="eyebrow">profile</p>
+                  <h2 id="profile-name">Your profile</h2>
+                  <p class="section-copy" id="profile-handle"></p>
+                </div>
+              </div>
+              <div class="profile-actions">
+                <input id="profile-avatar-input" type="file" accept="image/*" hidden />
+                <button class="button button-secondary" id="change-avatar" type="button">Change photo</button>
+              </div>
+            </div>
+
+            <div class="summary-strip" id="profile-stats"></div>
+
+            <div class="profile-switcher" id="profile-switcher" aria-label="Profile views">
+              <button class="profile-switch is-active" data-profile-view="posts" type="button" aria-label="Past fits">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5Zm2 .5v12h12V6Zm2 9.5 2.5-3 1.8 2.2 2.7-3.2L18 15.5Z"/></svg>
+              </button>
+              <button class="profile-switch" data-profile-view="saved" type="button" aria-label="Saved fits">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4.5A1.5 1.5 0 0 1 7.5 3h9A1.5 1.5 0 0 1 18 4.5V21l-6-3-6 3Z"/></svg>
+              </button>
+            </div>
+
+            <section class="panel section section-compact">
+              <div class="shelf-heading shelf-heading-card">
+                <h2 id="profile-grid-title">Past fits</h2>
+              </div>
+              <div class="profile-grid" id="profile-posts"></div>
+            </section>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <div class="composer-modal" id="add-item-modal" hidden>
+      <div class="modal-backdrop" data-add-item-close></div>
+      <form class="card form-card composer-card" id="wardrobe-form">
+        <div class="composer-header">
+          <button class="text-button" data-add-item-close type="button">Cancel</button>
+          <h3>Add item</h3>
+          <button class="text-button" type="submit">Save</button>
+        </div>
+
+        <label class="upload-dropzone">
+          <span>Choose photo</span>
+          <input name="image" type="file" accept="image/*" />
+        </label>
+
+        <label>
+          <span>Name</span>
+          <input name="name" type="text" placeholder="Summit puffer" required />
+        </label>
+
+        <label>
+          <span>Color</span>
+          <input name="color" type="text" placeholder="Mandarin orange" required />
+        </label>
+
+        <label>
+          <span>Type</span>
+          <select name="type" required>
+            <option value="Top">Top</option>
+            <option value="Bottom">Bottom</option>
+            <option value="Outerwear">Outerwear</option>
+            <option value="Shoes">Shoes</option>
+            <option value="Accessory">Accessory</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Brand</span>
+          <input name="brand" type="text" placeholder="Optional" />
+        </label>
+
+        <div class="toggle-row">
+          <label class="checkbox">
+            <input name="recentlyWorn" type="checkbox" />
+            <span>Recently worn</span>
+          </label>
+          <label class="checkbox">
+            <input name="dirty" type="checkbox" />
+            <span>Dirty</span>
+          </label>
+        </div>
+      </form>
+    </div>
+
+    <div class="composer-modal" id="outfit-modal" hidden>
+      <div class="modal-backdrop" data-outfit-close></div>
+      <form class="card form-card composer-card" id="outfit-form">
+        <div class="composer-header">
+          <button class="text-button" data-outfit-close type="button">Cancel</button>
+          <h3>Create outfit</h3>
+          <button class="text-button" type="submit">Save</button>
+        </div>
+
+        <label>
+          <span>Outfit name</span>
+          <input name="name" type="text" placeholder="Coffee run uniform" />
+        </label>
+
+        <div class="card outfit-picker-card">
+          <div class="card-heading">
+            <h3>Closet items</h3>
+            <p>Select the pieces in this outfit.</p>
+          </div>
+          <label class="outfit-search">
+            <input id="outfit-search" type="search" placeholder="Search your closet" />
+          </label>
+          <div class="outfit-picker-grid" id="outfit-picker-grid"></div>
+        </div>
+      </form>
+    </div>
+
+    <div class="composer-modal" id="composer-modal" hidden>
+      <div class="modal-backdrop" data-modal-close></div>
+      <form class="card form-card composer-card" id="post-form">
+        <div class="composer-header">
+          <button class="text-button" data-modal-close type="button">Cancel</button>
+          <h3>New post</h3>
+          <button class="text-button" type="submit">Share</button>
+        </div>
+
+        <label class="upload-dropzone">
+          <span>Choose photo</span>
+          <input name="image" type="file" accept="image/*" />
+        </label>
+
+        <label>
+          <span>Caption</span>
+          <input name="caption" type="text" placeholder="Rainy commute layers." required />
+        </label>
+
+        <label>
+          <span>Pieces</span>
+          <input
+            name="pieces"
+            type="text"
+            placeholder="Beanie, puffer, cargos, hikers"
+            required
+          />
+        </label>
+
+        <label>
+          <span>Brands</span>
+          <input
+            name="brands"
+            type="text"
+            placeholder="Arc'teryx, Salomon, Uniqlo"
+          />
+        </label>
+      </form>
+    </div>
+
+    <div class="fitcheck-modal" id="fitcheck-modal" hidden>
+      <div class="modal-backdrop" data-fitcheck-close></div>
+      <div class="card fitcheck-card">
+        <p class="eyebrow">fit check</p>
+        <h3>It's time to post your look.</h3>
+        <p class="support-copy" id="fitcheck-message"></p>
+        <div class="button-row">
+          <button class="button button-primary" id="fitcheck-post" type="button">Post fit</button>
+          <button class="button button-secondary" data-fitcheck-close type="button">Later</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-modal" id="detail-modal" hidden>
+      <div class="modal-backdrop" data-detail-close></div>
+      <div class="card detail-card" id="detail-card"></div>
+    </div>
+
+    <div aria-live="polite" class="status-message" id="status-message"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
